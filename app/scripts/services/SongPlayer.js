@@ -2,6 +2,20 @@
     function SongPlayer($rootScope, Fixtures) {
       var SongPlayer = {};
 
+
+
+/**
+* @function setVolume
+* @desc Set current volume
+* @param {Number} volume
+*/
+SongPlayer.setVolume = function(volume) {
+  SongPlayer.currentVolume = 50;
+ if (currentBuzzObject) {
+  SongPlayer.currentVolume = currentBuzzObject.setVolume(volume)
+  }
+};
+
 /**
 * @function setCurrentTime
 * @desc Set current time (in seconds) of currently playing song
