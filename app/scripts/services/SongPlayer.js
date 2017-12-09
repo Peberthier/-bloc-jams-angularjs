@@ -62,10 +62,14 @@ var setSong = function(song) {
   currentBuzzObject.bind('timeupdate', function() {
           $rootScope.$apply(function() {
               SongPlayer.currentTime = currentBuzzObject.getTime();
+                SongPlayer.currentTimeNewTime = buzz.toTimer(SongPlayer.currentTime)
           });
       });
 
-  SongPlayer.currentSong  = song;
+  SongPlayer.currentSong = song;
+
+  SongPlayer.currentSongNewTime = buzz.toTimer(song.duration);
+
 }
 
 /**
