@@ -15,6 +15,14 @@ SongPlayer.setVolume = function(volume) {
   currentBuzzObject.setVolume(volume);
 };
 
+SongPlayer.mute = function() {
+if(SongPlayer.currentVolume === 0) {
+  SongPlayer.setVolume(50);
+}
+  SongPlayer.setVolume(0);
+}
+
+
 /**
 * @function setCurrentTime
 * @desc Set current time (in seconds) of currently playing song
@@ -54,6 +62,9 @@ var setSong = function(song) {
     stopSong();
   };
 
+SongPlayer.currentSong = song;
+SongPlayer.currentSongNewTime = buzz.toTimer(song.duration);
+
   currentBuzzObject = new buzz.sound(song.audioUrl, {
     formats: ['mp3'],
     preload: true
@@ -63,12 +74,12 @@ var setSong = function(song) {
           $rootScope.$apply(function() {
               SongPlayer.currentTime = currentBuzzObject.getTime();
                 SongPlayer.currentTimeNewTime = buzz.toTimer(SongPlayer.currentTime)
+                if (SongPlayer.currentTimeNewTime === SongPlayer.currentSongNewTime) {
+                  SongPlayer.next();
+                }
           });
       });
 
-  SongPlayer.currentSong = song;
-
-  SongPlayer.currentSongNewTime = buzz.toTimer(song.duration);
 
 }
 
@@ -154,6 +165,11 @@ SongPlayer.play = function(song) {
       stopSong();
     } else {
       var song = currentAlbum.songs[currentSongIndex];
+      if(SongPlayer.currentVolume == 0) {
+        setSong(song);
+        playSong(song);
+        SongPlayer.setVolume(0);
+      }
       setSong(song);
       playSong(song);
     }
