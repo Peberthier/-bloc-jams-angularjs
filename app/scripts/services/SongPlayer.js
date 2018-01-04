@@ -16,10 +16,11 @@ SongPlayer.setVolume = function(volume) {
 };
 
 SongPlayer.mute = function() {
-if(SongPlayer.currentVolume === 0) {
-  SongPlayer.setVolume(50);
-}
-  SongPlayer.setVolume(0);
+  if(SongPlayer.currentVolume === 0) {
+    SongPlayer.setVolume(50);
+  } else {
+    SongPlayer.setVolume(0);
+  }
 }
 
 
@@ -69,6 +70,14 @@ SongPlayer.currentSongNewTime = buzz.toTimer(song.duration);
     formats: ['mp3'],
     preload: true
   });
+
+  // Option A
+  // currentBuzzObject.setVolume(SongPlayer.currentVolume);
+
+  // Option B
+  if (SongPlayer.currentVolume === 0) {
+    currentBuzzObject.mute();
+  }
 
   currentBuzzObject.bind('timeupdate', function() {
           $rootScope.$apply(function() {
